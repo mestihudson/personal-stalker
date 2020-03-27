@@ -28,3 +28,15 @@ cd personal-stalker
 Aguarde até que a seguinte mensagem seja apresentada:
 
 Abra o endereço http://localhost no seu navegador preferido (desde que ele seja chrome ou firefox, ;P).
+
+## Funcionalidades
+
+* Criar/Editar tarefa
+* Listar tarefas finalizadas
+* Listar tarefas não finalizadas
+* Iniciar tarefa
+* Suspender/Continuar tarefa
+* Finalizar tarefa
+* Reabrir tarefa
+* Visualizar total de tempo gasto em todas as tarefas
+* Definir usuário
