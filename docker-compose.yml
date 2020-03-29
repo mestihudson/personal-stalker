@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  personal-stalker:
+    name: personal-stalker
+    ipam:
+      config:
+      - subnet: 39.39.39.0/24
+
+services:
+  personal-stalker-ui:
+    container_name: personal-stalker-ui
+    image: node:12.16.1-alpine3.11
+    working_dir: /ws/ui
+    entrypoint: /bin/sh -c 'yarn install && yarn start; tail -f'
+    volumes:
+    - .:/ws
+    env_file:
+    - ui/ENV.local
+    ports:
+    - 3900:3900
+    networks:
+      personal-stalker:
+        ipv4_address: 39.39.39.2
+
