@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "flush-promises": "^1.0.2",
     "moment": "^2.24.0",
     "vue": "^2.6.11"
   },
