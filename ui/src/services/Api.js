@@ -7,5 +7,9 @@ export default {
       { id: 4, name: 'Tarefa 4', status: 3, times: [1] },
       { id: 5, name: 'Tarefa 5', status: 3, times: [3] }
     ])
+  },
+  createTask (task) {
+    console.warn(task.name)
+    return Promise.resolve({ id: 1 })
   }
 }

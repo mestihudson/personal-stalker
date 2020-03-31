@@ -10,6 +10,10 @@
         <button data-trigger='Tasks' @click='tasks'
         >Tarefas</button>
       </li>
+      <li>
+        <button data-trigger='Add' @click='add'
+        >Adicionar</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -26,6 +30,9 @@ export default {
     },
     home () {
       this.$router.push({ name: 'home' })
+    },
+    add () {
+      this.$router.push({ name: 'add' })
     }
   }
 }

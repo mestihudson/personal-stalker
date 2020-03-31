@@ -36,13 +36,20 @@ describe('@/components/Menu.vue', () => {
     expect(push).toHaveBeenCalledWith({ name: 'tasks' })
   })
 
-  it('deve ir para rota padrão (tarefas) quando clicar em "home"',
-    async () => {
+  it('deve ir para rota padrão (tarefas) quando clicar em "home"', async () => {
     const push = jest.fn()
     const wrapper = await mountMenu(push)
     wrapper.find(`[data-trigger='Home']`).trigger('click')
     await flushPromises()
     expect(push).toHaveBeenCalledWith({ name: 'home' })
+  })
+
+  it('deve ir para criar tarefa quando clicar em "adicionar"', async () => {
+    const push = jest.fn()
+    const wrapper = await mountMenu(push)
+    wrapper.find(`[data-trigger='Add']`).trigger('click')
+    await flushPromises()
+    expect(push).toHaveBeenCalledWith({ name: 'add' })
   })
 })
 
