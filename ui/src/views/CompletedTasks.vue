@@ -17,6 +17,12 @@
           <td><actions :task='task'/></td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th>Tempo Total</th>
+          <td><total :tasks='tasks'/></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -24,9 +30,10 @@
 <script>
 import Api from '@/services/Api'
 import Actions from '@/components/Actions'
+import Total from '@/components/Total'
 
 export default {
-  components: { Actions },
+  components: { Actions, Total },
   data () {
     return {
       all: []
@@ -50,6 +57,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
