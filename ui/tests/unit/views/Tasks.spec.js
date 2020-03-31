@@ -8,10 +8,14 @@ import Tasks from '@/views/Tasks.vue'
 
 describe('@/views/Tasks.vue', () => {
   const TASK_TEMPLATE = { name: '', status: 0, times: [] }
-  const mountTasks = async (tasks) => {
+  const mountTasks = async (tasks, push = jest.fn()) => {
     Api.getTasks = jest.fn()
       .mockImplementationOnce(() => Promise.resolve(tasks))
-    const wrapper = mount(Tasks)
+    const wrapper = mount(Tasks, {
+      mocks: {
+        $router: { push }
+      }
+    })
     await flushPromises()
     return wrapper
   }
@@ -43,6 +47,20 @@ describe('@/views/Tasks.vue', () => {
     const carregadas = 3
     const wrapper = await mountTasks(tasks)
     expect(wrapper.findAll(`[data-name='Line']`)).toHaveLength(carregadas)
+  })
+
+  it('deve ser encaminhado para editar tarefa selecionada', async () => {
+    const id = 3
+    const tasks = [
+      { ...TASK_TEMPLATE, id: 1, status: 0 },
+      { ...TASK_TEMPLATE, id, status: 1 },
+      { ...TASK_TEMPLATE, id: 5, status: 3 }
+    ]
+    const push = jest.fn()
+    const wrapper = await mountTasks(tasks, push)
+    wrapper.find(`[data-trigger='Edit'][data-id='${id}']`).trigger('click')
+    await flushPromises()
+    expect(push).toHaveBeenCalledWith({ name: 'edit', params: { id } })
   })
 })
 

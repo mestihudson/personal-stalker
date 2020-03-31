@@ -11,6 +11,10 @@ import Api from '@/services/Api'
 import Notification from '@/services/Notification'
 
 export default {
+  props: ['id'],
+  created () {
+    this.init()
+  },
   data () {
     return {
       task: {
@@ -19,12 +23,33 @@ export default {
     }
   },
   methods: {
+    init () {
+      if (this.id !== undefined) {
+        Api.getTask(this.id)
+          .then(({ name }) => this.task = { ...this.task, name })
+      }
+    },
+    beforeUpdate () {
+      console.log('Antes de atualizar')
+    },
+    afterUpdate () {
+      console.log('Depois de atualizar')
+    },
     save () {
-      Api.createTask(this.task)
-        .then(({ id }) => {
-          Notification.success(`Tarefa criada com sucesso.`)
-            .then(() => this.$router.push({ name: 'edit', params: { id } }))
-        })
+      if (this.id !== undefined) {
+        this.beforeUpdate()
+        Api.updateTask(this.id, this.task)
+          .then(() => {
+            Notification.success(`Tarefa atualizada com sucesso.`)
+              .then(() => this.afterUpdate())
+          })
+      } else {
+        Api.createTask(this.task)
+          .then(({ id }) => {
+            Notification.success(`Tarefa criada com sucesso.`)
+              .then(() => this.$router.push({ name: 'edit', params: { id } }))
+          })
+      }
     },
     changeName ({ target }) {
       this.task.name = target.value
