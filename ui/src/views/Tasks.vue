@@ -29,7 +29,7 @@ export default {
   components: { Actions },
   data () {
     return {
-      tasks: []
+      all: []
     }
   },
   created () {
@@ -39,11 +39,15 @@ export default {
     init () {
       Api.getTasks()
         .then((tasks) => {
-          this.tasks = tasks
+          this.all = tasks
         })
     }
   },
-  computed: {}
+  computed: {
+    tasks () {
+      return this.all.filter((task) => task.status !== 3)
+    }
+  }
 }
 </script>
 

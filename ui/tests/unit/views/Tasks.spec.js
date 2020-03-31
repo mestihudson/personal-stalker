@@ -20,7 +20,9 @@ describe('@/views/Tasks.vue', () => {
     jest.resetAllMocks()
   })
 
-  it.each([1, 2, 100])('deve carregar %p tarefa(s) recuperada(s) da api',
+  it.each([
+    1, 2, 100
+  ])('deve carregar %p tarefa(s) recuperada(s) da api',
     async (quant) => {
     const tasks = Array(quant)
       .fill(TASK_TEMPLATE)
@@ -29,6 +31,18 @@ describe('@/views/Tasks.vue', () => {
       })
     const wrapper = await mountTasks(tasks)
     expect(wrapper.findAll(`[data-name='Line']`)).toHaveLength(quant)
+  })
+
+  it('deve carregar apenas tarefas não finalizadas', async () => {
+    const tasks = [
+      { ...TASK_TEMPLATE, id: 1, status: 0 },
+      { ...TASK_TEMPLATE, id: 2, status: 1 },
+      { ...TASK_TEMPLATE, id: 3, status: 2 },
+      { ...TASK_TEMPLATE, id: 4, status: 3 }
+    ]
+    const carregadas = 3
+    const wrapper = await mountTasks(tasks)
+    expect(wrapper.findAll(`[data-name='Line']`)).toHaveLength(carregadas)
   })
 })
 
