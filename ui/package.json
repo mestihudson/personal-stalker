@@ -12,7 +12,8 @@
     "core-js": "^3.6.4",
     "flush-promises": "^1.0.2",
     "moment": "^2.24.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

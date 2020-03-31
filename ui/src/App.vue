@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <tasks/>
+    <app-menu/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Tasks from '@/views/Tasks'
+import AppMenu from '@/components/Menu'
 
 export default {
-  components: { Tasks }
+  components: { AppMenu }
 }
 </script>
