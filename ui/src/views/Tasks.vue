@@ -6,6 +6,7 @@
           <th>Tarefa</th>
           <th>Status</th>
           <th>Tempo</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -13,6 +14,7 @@
           <td>{{task.name}}</td>
           <td>{{task.status}}</td>
           <td>{{tasks.times}}</td>
+          <td><actions :task='task'/></td>
         </tr>
       </tbody>
     </table>
@@ -21,8 +23,10 @@
 
 <script>
 import Api from '@/services/Api'
+import Actions from '@/components/Actions'
 
 export default {
+  components: { Actions },
   data () {
     return {
       tasks: []
