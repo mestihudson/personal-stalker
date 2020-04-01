@@ -12,8 +12,8 @@
       <tbody>
         <tr v-for='task in tasks' :key='task.id' data-name='Line'>
           <td>
-            <a href='#' data-trigger='Edit' :data-id='task.id'
-              @click='edit(task.id)'
+            <a href='#' data-trigger='Edit'
+              :data-id='task.id' @click.stop.prevent='edit(task.id)'
             >{{task.name}}</a>
           </td>
           <td>{{task.status}}</td>
@@ -57,6 +57,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

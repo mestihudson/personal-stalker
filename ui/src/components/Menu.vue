@@ -1,17 +1,18 @@
 <template>
   <div>
-    <h1><a href='#' data-trigger='Home' @click='home'>Personal Stalker</a></h1>
+    <h1><a href='#' data-trigger='Home' @click.stop.prevent='home'
+    >Personal Stalker</a></h1>
     <ul>
       <li>
-        <button data-trigger='CompletedTasks' @click='completeds'
+        <button data-trigger='CompletedTasks' @click.stop='completeds'
         >Finalizadas</button>
       </li>
       <li>
-        <button data-trigger='Tasks' @click='tasks'
+        <button data-trigger='Tasks' @click.stop='tasks'
         >Tarefas</button>
       </li>
       <li>
-        <button data-trigger='Add' @click='add'
+        <button data-trigger='Add' @click.stop='add'
         >Adicionar</button>
       </li>
     </ul>

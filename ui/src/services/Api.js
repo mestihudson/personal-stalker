@@ -1,15 +1,24 @@
+import axios from 'axios'
+
 export default {
   getTasks () {
-    return Promise.resolve([
-      { id: 1, name: 'Tarefa 1', status: 0, times: [] },
-      { id: 2, name: 'Tarefa 2', status: 1, times: [] },
-      { id: 3, name: 'Tarefa 3', status: 2, times: [] },
-      { id: 4, name: 'Tarefa 4', status: 3, times: [1] },
-      { id: 5, name: 'Tarefa 5', status: 3, times: [3] }
-    ])
+    return axios.get('/api/tasks')
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
   },
   createTask (task) {
-    console.warn(task.name)
-    return Promise.resolve({ id: 1 })
+    return axios.post('/api/task', task)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
+  updateTask (id, task) {
+    return axios.patch(`/api/task/${id}`, task)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
+  getTask (id) {
+    return axios.get(`/api/task/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
   }
 }

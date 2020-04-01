@@ -11,9 +11,19 @@ import Api from '@/services/Api'
 import Notification from '@/services/Notification'
 
 export default {
-  props: ['id'],
+  props: {
+    id: {
+      validator (value) {
+        return !isNaN(value)
+      }
+    }
+  },
   created () {
+    console.log(this.task.name)
+    this.clear()
+    console.log(this.task.name)
     this.init()
+    console.log(this.task.name)
   },
   data () {
     return {
@@ -23,10 +33,16 @@ export default {
     }
   },
   methods: {
+    clear () {
+      this.task = {
+        name: ''
+      }
+    },
     init () {
       if (this.id !== undefined) {
         Api.getTask(this.id)
           .then(({ name }) => this.task = { ...this.task, name })
+          .catch((erros) => console.error(errors))
       }
     },
     beforeUpdate () {
@@ -43,12 +59,14 @@ export default {
             Notification.success(`Tarefa atualizada com sucesso.`)
               .then(() => this.afterUpdate())
           })
+          .catch((erros) => console.error(errors))
       } else {
         Api.createTask(this.task)
           .then(({ id }) => {
             Notification.success(`Tarefa criada com sucesso.`)
               .then(() => this.$router.push({ name: 'edit', params: { id } }))
           })
+          .catch((erros) => console.error(errors))
       }
     },
     changeName ({ target }) {
