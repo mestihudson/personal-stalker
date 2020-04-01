@@ -4,6 +4,7 @@
     <button data-name='Pause' v-if='showPause'>Suspender</button>
     <button data-name='Resume' v-if='showResume'>Retomar</button>
     <button data-name='Stop' v-if='showStop'>Parar</button>
+    <button data-name='Restart' v-if='showRestart'>Reiniciar</button>
   </div>
 </template>
 
@@ -24,6 +25,9 @@ export default {
     },
     showStop () {
       return this.showPause || this.showResume
+    },
+    showRestart () {
+      return this.task.status === 3
     }
   }
 }

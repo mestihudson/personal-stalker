@@ -12,7 +12,9 @@ describe('@/components/Actions.vue', () => {
     await flushPromises()
     return wrapper
   }
-  const STATUS = { 'não iniciada': 0, 'iniciada': 1, 'suspensa': 2 }
+  const STATUS = {
+    'não iniciada': 0, 'iniciada': 1, 'suspensa': 2, 'finalizada': 3
+  }
 
   it('deve renderizar "iniciar" quando status for "não iniciada"', async () => {
     const wrapper = await mountActions(STATUS['não iniciada'])
@@ -33,6 +35,9 @@ describe('@/components/Actions.vue', () => {
     const wrapper = await mountActions(STATUS[name])
     expect(wrapper.findAll(`[data-name='Stop']`)).toHaveLength(1)
   })
+
+  it('deve renderizar "reiniciar" quando status for "finalizada"', async () => {
+    const wrapper = await mountActions(STATUS['finalizada'])
+    expect(wrapper.findAll(`[data-name='Restart']`)).toHaveLength(1)
+  })
 })
-
-
