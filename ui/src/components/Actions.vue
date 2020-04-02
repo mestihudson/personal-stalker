@@ -1,10 +1,14 @@
 <template>
   <div>
-    <button data-name='Start' v-if='showStart'>Iniciar</button>
-    <button data-name='Pause' v-if='showPause'>Suspender</button>
-    <button data-name='Resume' v-if='showResume'>Retomar</button>
-    <button data-name='Stop' v-if='showStop'>Parar</button>
-    <button data-name='Restart' v-if='showRestart'>Reiniciar</button>
+    <button data-trigger='Start' v-if='showStart' @click='start'
+    >Iniciar</button>
+    <button data-trigger='Pause' v-if='showPause' @click='pause'
+    >Suspender</button>
+    <button data-trigger='Resume' v-if='showResume' @click='resume'
+    >Retomar</button>
+    <button data-trigger='Stop' v-if='showStop' @click='stop'>Parar</button>
+    <button data-trigger='Restart' v-if='showRestart' @click='restart'
+    >Reiniciar</button>
   </div>
 </template>
 
@@ -12,6 +16,23 @@
 export default {
   props: {
     task: Object
+  },
+  methods: {
+    start () {
+      this.$emit('start', this.task)
+    },
+    pause () {
+      this.$emit('pause', this.task)
+    },
+    resume () {
+      this.$emit('resume', this.task)
+    },
+    stop () {
+      this.$emit('stop', this.task)
+    },
+    restart () {
+      this.$emit('restart', this.task)
+    }
   },
   computed: {
     showStart () {
