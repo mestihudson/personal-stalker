@@ -4,7 +4,7 @@
       <thead>
         <tr>
           <th>Tarefa</th>
-          <th>Status</th>
+          <th v-if='!completeds' data-name='StatusHeader'>Status</th>
           <th>Tempo</th>
           <th></th>
         </tr>
@@ -17,7 +17,7 @@
             <a href='#' data-trigger='Edit' @click.stop.prevent='edit(task.id)'
             >{{task.name}}</a>
           </td>
-          <td>{{task.status}}</td>
+          <td v-if='!completeds' data-name='StatusData'>{{task.status}}</td>
           <td>{{tasks.times}}</td>
           <td>
             <actions :task='task' @start='start' @pause='pause' @resume='resume'
@@ -26,6 +26,12 @@
           </td>
         </tr>
       </tbody>
+      <tfoot v-if='completeds'>
+        <tr>
+          <th>Tempo Total</th>
+          <td><total :tasks='tasks'/></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -33,9 +39,14 @@
 <script>
 import Api from '@/services/Api'
 import Actions from '@/components/Actions'
+import Total from '@/components/Total'
 
 export default {
-  components: { Actions },
+  components: { Actions, Total },
+  props: {
+    completeds: Boolean,
+    default: false
+  },
   data () {
     return {
       all: []
@@ -73,7 +84,8 @@ export default {
   },
   computed: {
     tasks () {
-      return this.all.filter((task) => task.status !== 3)
+      return this.all
+        .filter(({ status }) => this.completeds ? status === 3 : status !== 3)
     }
   }
 }

@@ -8,10 +8,11 @@ import Tasks from '@/views/Tasks.vue'
 
 describe('@/views/Tasks.vue', () => {
   const TASK_TEMPLATE = { name: '', status: 0, times: [] }
-  const mountTasks = async (tasks, push = jest.fn()) => {
+  const mountTasks = async (tasks, push = jest.fn(), completeds = false) => {
     Api.getTasks = jest.fn()
       .mockImplementationOnce(() => Promise.resolve(tasks))
     const wrapper = mount(Tasks, {
+      propsData: { completeds },
       mocks: {
         $router: { push }
       }
@@ -37,16 +38,47 @@ describe('@/views/Tasks.vue', () => {
     expect(wrapper.findAll(`[data-name='Line']`)).toHaveLength(quant)
   })
 
-  it('deve carregar apenas tarefas não finalizadas', async () => {
-    const tasks = [
+  const load = async (completeds) => {
+    return await mountTasks([
       { ...TASK_TEMPLATE, id: 1, status: 0 },
       { ...TASK_TEMPLATE, id: 2, status: 1 },
       { ...TASK_TEMPLATE, id: 3, status: 2 },
       { ...TASK_TEMPLATE, id: 4, status: 3 }
-    ]
-    const carregadas = 3
-    const wrapper = await mountTasks(tasks)
+    ], jest.fn(), completeds)
+  }
+
+  it.each([
+    ['não', 3, false],
+    ['', 1, true]
+  ])('deve carregar apenas tarefas %p finalizadas', async (
+    situacao, carregadas, completeds
+  ) => {
+    const wrapper = await load(completeds)
     expect(wrapper.findAll(`[data-name='Line']`)).toHaveLength(carregadas)
+  })
+
+  it.each([
+    ['deve', 'não finalizadas', false, 1, 3],
+    ['não deve', 'finalizadas', true, 0, 0]
+  ])('%p apresentar coluna de status para %p', async (
+    should, situacao, completeds, header, data
+  ) => {
+    const wrapper = await load(completeds)
+    expect(wrapper.findAll(`[data-name='StatusHeader']`))
+      .toHaveLength(header)
+    expect(wrapper.findAll(`[data-name='StatusData']`))
+      .toHaveLength(data)
+  })
+
+  it.each([
+    ['deve', 'finalizadas', true, 1],
+    ['não deve', 'não finalizadas', false, 0]
+  ])('%p apresentar totalizador para %p', async (
+    should, situacao, completeds, length
+  ) => {
+    const wrapper = await load(completeds)
+    expect(wrapper.findAll(`[data-name='Total']`))
+      .toHaveLength(length)
   })
 
   it('deve ser encaminhado para editar tarefa selecionada', async () => {
