@@ -18,7 +18,7 @@
             >{{task.name}}</a>
           </td>
           <td v-if='!completeds' data-name='StatusData'>{{task.status}}</td>
-          <td>{{tasks.times}}</td>
+          <td data-name='TimeData'>{{task.time}}</td>
           <td>
             <actions :task='task' @start='start' @pause='pause' @resume='resume'
               @stop='stop'
@@ -38,6 +38,7 @@
 
 <script>
 import Api from '@/services/Api'
+import Timer from '@/services/Timer'
 import Actions from '@/components/Actions'
 import Total from '@/components/Total'
 
@@ -67,7 +68,14 @@ export default {
     },
     start (task) {
       Api.startTask(task.id)
-        .then((newTask) => console.warn(newTask))
+        .then((newTask) => {
+          const time = Timer.ellipsed(newTask.latest_started, newTask.passed)
+          this.all = this.all.map((one) => {
+            return one.id === task.id
+              ? { ...one, time, status: newTask.status }
+              : one
+          })
+        })
     },
     pause (task) {
       Api.pauseTask(task.id)

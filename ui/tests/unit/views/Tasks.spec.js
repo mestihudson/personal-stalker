@@ -1,9 +1,11 @@
 jest.mock('@/services/Api')
+jest.mock('@/services/Timer')
 
 import { mount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 
 import Api from '@/services/Api'
+import Timer from '@/services/Timer'
 import Tasks from '@/views/Tasks.vue'
 
 describe('@/views/Tasks.vue', () => {
@@ -96,8 +98,10 @@ describe('@/views/Tasks.vue', () => {
     expect(push).toHaveBeenCalledWith({ name: 'edit', params: { id } })
   })
 
-  const click = async (id, button, api) => {
-    Api[api] = jest.fn().mockImplementationOnce(() => Promise.resolve())
+  const click = async (
+    id, button, api, mockImpl = () => Promise.resolve({})
+  ) => {
+    Api[api] = jest.fn().mockImplementationOnce(mockImpl)
     const wrapper = await mountTasks([
       { ...TASK_TEMPLATE, id: 1, status: 0 },
       { ...TASK_TEMPLATE, id: 2, status: 1 },
@@ -118,6 +122,54 @@ describe('@/views/Tasks.vue', () => {
   ) => {
     await click(id, button, api)
     expect(Api[api]).toHaveBeenCalledWith(id)
+  })
+
+  it(`deve inicializar um crônometro quando iniciar for acionado`, async () => {
+    Timer.ellipsed = jest.fn()
+    const task = { status: 1, passed: 0, latest_started: '2020-04-02 00:00:00' }
+    await click(1, 'Start', 'startTask', () => Promise.resolve(task))
+    expect(Timer.ellipsed)
+      .toHaveBeenCalledWith(task.latest_started, task.passed)
+  })
+
+  const mountTaskToStart = async (
+    api = 'startTask', mockImpl = {}
+  ) => {
+    Api[api] = jest.fn().mockImplementationOnce(() => Promise.resolve(mockImpl))
+    const wrapper = await mountTasks([
+      { ...TASK_TEMPLATE, id: 1, status: 0 },
+      { ...TASK_TEMPLATE, id: 2, status: 1 },
+      { ...TASK_TEMPLATE, id: 3, status: 2 }
+    ])
+    return wrapper
+  }
+
+  it(`deve alterar status para iniciada quando iniciar for acionado`,
+    async () => {
+    const id = 1
+    const wrapper = await mountTaskToStart('startTask', { status: 1 })
+    expect(wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-name='StatusData']`).text()).toBe('0')
+    wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-trigger='Start']`).trigger('click')
+    await flushPromises()
+    expect(wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-name='StatusData']`).text()).toBe('1')
+  })
+
+  it(`deve alterar tempo para diferente de vazio quando iniciar for acionado`,
+    async () => {
+    const id = 1
+    const ellipsed = '0:00:00:1'
+    Timer.ellipsed = jest.fn().mockImplementationOnce(() => ellipsed)
+    const wrapper = await mountTaskToStart('startTask', { status: 1 })
+    expect(wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-name='TimeData']`).text()).toBe('')
+    wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-trigger='Start']`).trigger('click')
+    await flushPromises()
+    expect(wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-name='TimeData']`).text()).toBe(ellipsed)
   })
 })
 
