@@ -160,8 +160,8 @@ describe('@/views/Tasks.vue', () => {
   it(`deve alterar tempo para diferente de vazio quando iniciar for acionado`,
     async () => {
     const id = 1
-    const ellipsed = '0:00:00:1'
-    Timer.ellipsed = jest.fn().mockImplementationOnce(() => ellipsed)
+    const ellipsed = '0:00:00:01'
+    Timer.ellipsed = jest.fn().mockReturnValue(ellipsed)
     const wrapper = await mountTaskToStart('startTask', { status: 1 })
     expect(wrapper.find(`[data-name='Line'][data-id='${id}']`)
       .find(`[data-name='TimeData']`).text()).toBe('')
