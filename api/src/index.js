@@ -42,7 +42,7 @@ router.patch('/task/:id', async (request, response) => {
   response.status(204).end()
 })
 
-router.get('/task/start/:id', async (request, response) => {
+router.patch('/task/start/:id', async (request, response) => {
   const useCase = new StartTask()
   try {
     const { id } = request.params
@@ -52,7 +52,7 @@ router.get('/task/start/:id', async (request, response) => {
   }
 })
 
-router.get('/task/pause/:id', async (request, response) => {
+router.patch('/task/pause/:id', async (request, response) => {
   const useCase = new PauseTask()
   try {
     const { id } = request.params
@@ -62,7 +62,7 @@ router.get('/task/pause/:id', async (request, response) => {
   }
 })
 
-router.get('/task/resume/:id', async (request, response) => {
+router.patch('/task/resume/:id', async (request, response) => {
   const useCase = new ResumeTask()
   try {
     const { id } = request.params
@@ -72,7 +72,7 @@ router.get('/task/resume/:id', async (request, response) => {
   }
 })
 
-router.get('/task/stop/:id', async (request, response) => {
+router.patch('/task/stop/:id', async (request, response) => {
   const useCase = new StopTask()
   try {
     const { id } = request.params
@@ -82,7 +82,7 @@ router.get('/task/stop/:id', async (request, response) => {
   }
 })
 
-router.get('/task/restart/:id', async (request, response) => {
+router.patch('/task/restart/:id', async (request, response) => {
   const useCase = new RestartTask()
   try {
     const { id } = request.params

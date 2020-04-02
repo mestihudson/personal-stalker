@@ -58,9 +58,34 @@ describe('@/views/Tasks.vue', () => {
     ]
     const push = jest.fn()
     const wrapper = await mountTasks(tasks, push)
-    wrapper.find(`[data-trigger='Edit'][data-id='${id}']`).trigger('click')
+    wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-trigger='Edit']`).trigger('click')
     await flushPromises()
     expect(push).toHaveBeenCalledWith({ name: 'edit', params: { id } })
+  })
+
+  const click = async (id, button, api) => {
+    Api[api] = jest.fn().mockImplementationOnce(() => Promise.resolve())
+    const wrapper = await mountTasks([
+      { ...TASK_TEMPLATE, id: 1, status: 0 },
+      { ...TASK_TEMPLATE, id: 2, status: 1 },
+      { ...TASK_TEMPLATE, id: 3, status: 2 }
+    ])
+    wrapper.find(`[data-name='Line'][data-id='${id}']`)
+      .find(`[data-trigger='${button}']`).trigger('click')
+    await flushPromises()
+  }
+
+  it.each([
+    ['iniciar', 'iniciar', 1, 'Start', 'startTask'],
+    ['suspender', 'suspender', 2, 'Pause', 'pauseTask'],
+    ['retomar', 'retomar', 3, 'Resume', 'resumeTask'],
+    ['parar', 'parar', 3, 'Stop', 'stopTask']
+  ])('deve disparar api para %p tarefa quando pressionar %p', async (
+    apiDesc, buttonDesc, id, button, api
+  ) => {
+    await click(id, button, api)
+    expect(Api[api]).toHaveBeenCalledWith(id)
   })
 })
 

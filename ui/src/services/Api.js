@@ -20,5 +20,20 @@ export default {
     return axios.get(`/api/task/${id}`)
       .then((response) => Promise.resolve(response.data))
       .catch((errors) => Promise.reject(errors))
+  },
+  startTask (id) {
+    return axios.patch(`/api/task/start/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
+  pauseTask (id) {
+    return axios.patch(`/api/task/pause/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
+  resumeTask (id) {
+    return axios.patch(`/api/task/resume/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
   }
 }
