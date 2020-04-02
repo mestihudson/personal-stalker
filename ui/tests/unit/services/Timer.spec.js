@@ -39,4 +39,16 @@ describe('@/services/Timer', () => {
   ) => {
     expect(Timer.ellipsed(time, increment)).toBe(assert)
   })
+
+  it.each([
+    [1, '0:00:00:01'],
+    [61, '0:00:01:01'],
+    [3661, '0:01:01:01'],
+    [90061, '1:01:01:01'],
+    [184354, '2:03:12:34']
+  ])('deve retornar %p segundo(s) para um giro %p', async (
+    seconds, spin
+  ) => {
+    expect(Timer.seconds(spin)).toBe(seconds)
+  })
 })

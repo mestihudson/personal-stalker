@@ -22,5 +22,16 @@ export default {
   ellipsed (time, increment = 1) {
     const now = Now.get()
     return format(now, time || now, increment)
+  },
+  seconds (spin) {
+    return spin.split(':').reduce((accumulator, current, index) => {
+      const factors = [
+        24 * 60 * 60 * 1,
+        60 * 60 * 1,
+        60 * 1,
+        1
+      ]
+      return parseInt(current) * factors[index] + accumulator
+    }, 0)
   }
 }
