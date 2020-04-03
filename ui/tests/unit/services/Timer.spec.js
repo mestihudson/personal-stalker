@@ -53,14 +53,27 @@ describe('@/services/Timer', () => {
   })
 
   it.each([
-    [1, '0:00:00:01'],
-    [61, '0:00:01:01'],
-    [3661, '0:01:01:01'],
-    [90061, '1:01:01:01'],
-    [184354, '2:03:12:34']
-  ])('deve retornar, para %p segundo(s), o giro de %p', async (
-    seconds, spin
-  ) => {
+      [1, '0:00:00:01'],
+      [61, '0:00:01:01'],
+      [3661, '0:01:01:01'],
+      [90061, '1:01:01:01'],
+      [184354, '2:03:12:34']
+    ])('deve retornar, para %p segundo(s), o giro de %p', async (
+      seconds, spin
+    ) => {
     expect(Timer.spin(seconds)).toBe(spin)
+  })
+
+  it.each([
+      ['0:00:00:01', 'o giro', '1 segundo'],
+      ['0:00:01:01', 'o giro', '1 minuto e 1 segundo'],
+      ['0:01:01:01', 'o giro', '1 hora e 1 minuto e 1 segundo'],
+      ['1:01:01:01', 'o giro', '1 dia e 1 hora e 1 minuto e 1 segundo'],
+      ['2:03:12:34', 'o giro', '2 dias e 3 horas e 12 minutos e 34 segundos'],
+      [278, 'o(s) segundo(s)', '4 minutos e 38 segundos']
+    ])('deve retornar para %p %p de forma amigável %p', async (
+      spin, tipo, humanized
+    ) => {
+    expect(Timer.humanize(spin)).toBe(humanized)
   })
 })

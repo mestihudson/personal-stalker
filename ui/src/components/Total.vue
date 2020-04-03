@@ -3,14 +3,14 @@
 </template>
 
 <script>
+import Timer from '@/services/Timer'
+import Totalized from '@/services/Totalized'
+
 export default {
-  props: {
-    tasks: Array
-  },
+  props: { tasks: Array },
   computed: {
     total () {
-      return this.tasks
-        .reduce((accumulator, { times }) => times[0] + accumulator, 0)
+      return Timer.humanize(Totalized.get(this.tasks))
     }
   }
 }

@@ -43,5 +43,20 @@ export default {
     }, seconds)
     return result
       .map((p, i) => i > 0 && `${p}`.length === 1 ? `0${p}` : `${p}`).join(':')
+  },
+  humanize (value = 0) {
+    return (typeof value === 'number' ? this.spin(value) : value)
+      .split(':')
+      .reduce((accumulator, current, index) => {
+        const withUnit = (value, position) => {
+          const suffix = ['dia', 'hora', 'minuto', 'segundo']
+          const plural = (value) => value === 1 ? '' : 's'
+          return value + ' ' + suffix[position] + plural(value)
+        }
+        const positive = (e, i) => e > 0 ? withUnit(e, i) : ''
+        return accumulator.concat(positive(parseInt(current), index))
+      }, [])
+      .filter((e) => e !== '')
+      .join( ' e ')
   }
 }
