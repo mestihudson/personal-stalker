@@ -14,7 +14,10 @@ export default class RestartTask {
     if (this.status.stoped(task.status)) {
       const new_task = {
         status: 1,
-        time: { latest_started: this.service.now(), passed: task.passed }
+        time: {
+          latest_started: this.service.nowFormated(),
+          passed: task.passed
+        }
       }
       await this.repository.updateStatus(id, new_task)
       return new_task

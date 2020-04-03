@@ -16,7 +16,9 @@ export default class StopTask {
         status: 3,
         time: {
           latest_started: null,
-          passed: task.passed + this.service.ellipsed(task.latest_started)
+          passed: this.service.seconds(
+            this.service.elapsed(task.latest_started, task.passed)
+          )
         }
       }
       await this.repository.updateStatus(id, new_task)

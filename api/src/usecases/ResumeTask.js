@@ -13,8 +13,11 @@ export default class ResumeTask {
     const task = await this.repository.get(id)
     if (this.status.paused(task.status)) {
       const new_task = {
-        status: 3,
-        time: { passed: task.passed, latest_started: this.service.now() }
+        status: 1,
+        time: {
+          passed: task.passed,
+          latest_started: this.service.nowFormated()
+        }
       }
       await this.repository.updateStatus(id, new_task)
       return new_task

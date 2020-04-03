@@ -3,7 +3,7 @@ create table personal_stalker.task (
   name character varying(100) not null,
   status integer default 0,
   passed bigint default 0,
-  latest_started bigint
+  latest_started timestamp with time zone
 );
 
 alter table personal_stalker.task add constraint task_pk primary key (id);

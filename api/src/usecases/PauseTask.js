@@ -15,7 +15,9 @@ export default class PauseTask {
       const new_task = {
         status: 2,
         time: {
-          passed: task.passed + this.service.ellipsed(task.latest_started),
+          passed: this.service.seconds(
+            this.service.elapsed(task.latest_started, task.passed)
+          ),
           latest_started: null
         }
       }

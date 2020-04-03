@@ -17,6 +17,8 @@ services:
     - .:/ws
     env_file:
     - ui/ENV.local
+    environment:
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
     ports:
     - 3900:3900
     networks:
@@ -32,6 +34,8 @@ services:
     - .:/ws
     env_file:
     - api/ENV.local
+    environment:
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
     ports:
     - 3939:3939
     networks:
@@ -48,6 +52,7 @@ services:
     - ./db/migrations:/docker-entrypoint-initdb.d
     environment:
       PGDATESTYLE: iso, dmy
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
     env_file:
     - db/ENV.local
     ports:

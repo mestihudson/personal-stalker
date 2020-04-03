@@ -14,7 +14,7 @@ export default class StartTask {
     if (this.status.notStarted(task.status)) {
       const new_task = {
         status: 1,
-        time: { latest_started: this.service.now(), passed: 0 }
+        time: { latest_started: this.service.nowFormated(), passed: 0 }
       }
       await this.repository.updateStatus(id, new_task)
       return new_task
