@@ -14,12 +14,10 @@ export default class PauseTask {
     if (this.status.started(task.status)) {
       const new_task = {
         status: 2,
-        time: {
-          passed: this.service.seconds(
-            this.service.elapsed(task.latest_started, task.passed)
-          ),
-          latest_started: null
-        }
+        passed: this.service.seconds(
+          this.service.elapsed(task.latest_started, task.passed)
+        ),
+        latest_started: null
       }
       await this.repository.updateStatus(id, new_task)
       return new_task

@@ -14,12 +14,10 @@ export default class StopTask {
     if (this.status.started(task.status)) {
       const new_task = {
         status: 3,
-        time: {
-          latest_started: null,
-          passed: this.service.seconds(
-            this.service.elapsed(task.latest_started, task.passed)
-          )
-        }
+        latest_started: null,
+        passed: this.service.seconds(
+          this.service.elapsed(task.latest_started, task.passed)
+        )
       }
       await this.repository.updateStatus(id, new_task)
       return new_task
@@ -27,10 +25,8 @@ export default class StopTask {
     if (this.status.paused(task.status)) {
       const new_task = {
         status: 3,
-        time: {
-          latest_started: null,
-          passed: task.passed
-        }
+        latest_started: null,
+        passed: task.passed
       }
       await this.repository.updateStatus(id, new_task)
       return new_task

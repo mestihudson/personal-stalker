@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Tasks from '@/views/Tasks.vue'
 import Task from '@/views/Task.vue'
+import Focus from '@/views/Focus.vue'
 
 Vue.use(Router)
 
@@ -19,6 +20,7 @@ export default new Router({
       props: true
     },
     { path: '/task/add', name: 'add', component: Task },
-    { path: '/task/edit/:id', name: 'edit', component: Task, props: true }
+    { path: '/task/edit/:id', name: 'edit', component: Task, props: true },
+    { path: '/task/focus/:id', name: 'focus', component: Focus, props: true }
   ]
 })

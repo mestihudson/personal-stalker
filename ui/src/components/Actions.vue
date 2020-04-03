@@ -6,7 +6,7 @@
     >Suspender</button>
     <button data-trigger='Resume' v-if='showResume' @click='resume'
     >Retomar</button>
-    <button data-trigger='Stop' v-if='showStop' @click='stop'>Parar</button>
+    <button data-trigger='Stop' v-if='showStop' @click='stop'>Concluir</button>
     <button data-trigger='Restart' v-if='showRestart' @click='restart'
     >Reiniciar</button>
   </div>
@@ -15,7 +15,16 @@
 <script>
 export default {
   props: {
-    task: Object
+    task: Object,
+    showButtons: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
+  created () {
+    console.log(this.showButtons)
   },
   methods: {
     start () {
@@ -36,19 +45,24 @@ export default {
   },
   computed: {
     showStart () {
-      return this.task.status === 0
+      return this.task.status === 0 &&
+        this.showButtons.some((button) => button === 'Start')
     },
     showPause () {
-      return this.task.status === 1
+      return this.task.status === 1 &&
+        this.showButtons.some((button) => button === 'Pause')
     },
     showResume () {
-      return this.task.status === 2
+      return this.task.status === 2 &&
+        this.showButtons.some((button) => button === 'Resume')
     },
     showStop () {
-      return this.showPause || this.showResume
+      return (this.showPause || this.showResume) &&
+        this.showButtons.some((button) => button === 'Stop')
     },
     showRestart () {
-      return this.task.status === 3
+      return this.task.status === 3 &&
+        this.showButtons.some((button) => button === 'Restart')
     }
   }
 }

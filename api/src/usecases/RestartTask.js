@@ -1,4 +1,5 @@
 import DatetimeService from '@/services/DatetimeService'
+import PauseAllStartedTasksService from '@/services/PauseAllStartedTasksService'
 import TaskRepository from '@/repositories/TaskRepository'
 import Status from '@/core/Status'
 
@@ -7,17 +8,17 @@ export default class RestartTask {
     this.repository = new TaskRepository()
     this.service = new DatetimeService()
     this.status = new Status()
+    this.pauseAllStartedTasks = new PauseAllStartedTasksService()
   }
 
   async exec(id) {
+    await this.pauseAllStartedTasks.exec()
     const task = await this.repository.get(id)
     if (this.status.stoped(task.status)) {
       const new_task = {
         status: 1,
-        time: {
-          latest_started: this.service.nowFormated(),
-          passed: task.passed
-        }
+        latest_started: this.service.nowFormated(),
+        passed: task.passed
       }
       await this.repository.updateStatus(id, new_task)
       return new_task

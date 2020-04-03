@@ -15,7 +15,7 @@ export default class TaskRepository {
     const client = await this.pool.connect()
     await this.setSchema(client)
     const result = await client.query(
-      'select * from task',
+      "select id, name, status, passed, latest_started at time zone 'America/Sao_Paulo' as latest_started from task",
       []
     )
     await client.release()
@@ -40,7 +40,7 @@ export default class TaskRepository {
     const client = await this.pool.connect()
     await this.setSchema(client)
     const result = await client.query(
-      'select * from task where id = $1',
+      "select id, name, status, passed, latest_started at time zone 'America/Sao_Paulo' as latest_started from task where id = $1",
       [id]
     )
     await client.release()
@@ -63,7 +63,7 @@ export default class TaskRepository {
     await client.query(`
       update task set status = $2, passed = $3, latest_started = $4
       where id = $1`, [
-        id, task.status, task.time.passed, task.time.latest_started
+        id, task.status, task.passed, task.latest_started
       ]
     )
     await client.release()

@@ -19,11 +19,8 @@ export default {
     }
   },
   created () {
-    console.log(this.task.name)
     this.clear()
-    console.log(this.task.name)
     this.init()
-    console.log(this.task.name)
   },
   data () {
     return {
@@ -64,7 +61,10 @@ export default {
         Api.createTask(this.task)
           .then(({ id }) => {
             Notification.success(`Tarefa criada com sucesso.`)
-              .then(() => this.$router.push({ name: 'edit', params: { id } }))
+              .then(() => {
+                this.$router.push({ name: 'edit', params: { id } })
+                window.location.reload()
+              })
           })
           .catch((erros) => console.error(errors))
       }

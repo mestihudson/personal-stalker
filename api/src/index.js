@@ -22,6 +22,10 @@ app.use(
     : '*'
   })
 )
+app.use((request, response, next) => {
+  console.log(request.originalUrl, request.body)
+  next()
+})
 const router = express.Router()
 
 router.get('/tasks', async (request, response) => {

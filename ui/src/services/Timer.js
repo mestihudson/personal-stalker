@@ -3,7 +3,7 @@ import moment from 'moment'
 import Now from '@/services/Now'
 
 const TIME = 'HH:mm:ss'
-const DATETIME = `YYYY-MM-DD hh:mm:ss`
+const DATETIME = `YYYY-MM-DD HH:mm:ss`
 
 const timeOf = (date) => moment(date, DATETIME)
 
@@ -26,9 +26,9 @@ const factors = [
 ]
 
 export default {
-  ellipsed (time, increment = 1) {
+  elapsed (time, increment = 1) {
     const now = Now.get()
-    return format(now, time || now, increment)
+    return  format(now, time || now, increment)
   },
   seconds (spin) {
     return spin.split(':').reduce((accumulator, current, index) => {
@@ -58,5 +58,8 @@ export default {
       }, [])
       .filter((e) => e !== '')
       .join( ' e ')
+  },
+  parse (time) {
+    return moment(time, 'YYYY-MM-DDTHH:mm:ss').format(DATETIME)
   }
 }

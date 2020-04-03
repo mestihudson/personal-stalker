@@ -5,7 +5,7 @@
     <ul>
       <li>
         <button data-trigger='CompletedTasks' @click.stop='completeds'
-        >Finalizadas</button>
+        >Concluídas</button>
       </li>
       <li>
         <button data-trigger='Tasks' @click.stop='tasks'

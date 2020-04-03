@@ -6,6 +6,10 @@ export default class LoadTasks {
   }
 
   async exec() {
-    return await this.repository.load()
+    try {
+      return await this.repository.load()
+    } catch(e) {
+      throw new Error(`LoadTasks.exec (${e.message})`)
+    }
   }
 }

@@ -21,6 +21,11 @@ export default {
       .then((response) => Promise.resolve(response.data))
       .catch((errors) => Promise.reject(errors))
   },
+  restartTask (id) {
+    return axios.patch(`/api/task/restart/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
   startTask (id) {
     return axios.patch(`/api/task/start/${id}`)
       .then((response) => Promise.resolve(response.data))
@@ -33,6 +38,11 @@ export default {
   },
   resumeTask (id) {
     return axios.patch(`/api/task/resume/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((errors) => Promise.reject(errors))
+  },
+  stopTask (id) {
+    return axios.patch(`/api/task/stop/${id}`)
       .then((response) => Promise.resolve(response.data))
       .catch((errors) => Promise.reject(errors))
   }
