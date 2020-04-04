@@ -2,11 +2,7 @@
 
 É um gerenciador de tarefas com crônometro criado para atender ao desafio/teste da Private Code
 
-Ele foi desenvolvido usando ReactJS como framework de frontend e NodeJS (ExpressJS, como framework para controlador de api rest e KnexJS como facilitador de acesso da recursos de banco de dados).
-
-É possivel acessar uma versão pública [em] (https://personal-stalker.herokuapp.com).
-
-Mas se preferir pode baixar o código e executar localmente.
+Ele foi desenvolvido usando [VueJS](https://vuejs.org) como framework de frontend e NodeJS ([ExpressJS](https://expressjs.com/), como framework para controlador de api rest e [PG](https://node-postgres.com/api/client/) como facilitador de acesso de banco de dados e [PostreSQL](https://www.postgresql.org) como SGBD).
 
 O ambiente de desenvolvimento desse projeto utiliza Docker Compose, logo, para levantá-lo, será necessário garantir alguns requisitos mínimos:
   * Linux ou MacOSX
@@ -23,20 +19,9 @@ git clone https://github.com/mestihudson/personal-stalker.git
 Feito isso execute o script:
 
 cd personal-stalker
-./init.sh
+docker-compose down -v && docker-compose up
 
-Aguarde até que a seguinte mensagem seja apresentada:
+Aguarde os serviços estarem prontos e abra o navegador na url:
 
-Abra o endereço http://localhost no seu navegador preferido (desde que ele seja chrome ou firefox, ;P).
+http://localhost:3900
 
-## Funcionalidades
-
-* Criar/Editar tarefa
-* Listar tarefas finalizadas
-* Listar tarefas não finalizadas
-* Iniciar tarefa
-* Suspender/Continuar tarefa
-* Finalizar tarefa
-* Reabrir tarefa
-* Visualizar total de tempo gasto em todas as tarefas
-* Definir usuário
