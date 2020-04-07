@@ -1,5 +1,5 @@
 <template>
-  <button v-if='show' @click='run'>{{name}}</button>
+  <a v-if='show' class='action' @click.stop.prevent='run'>{{name}}</a>
 </template>
 
 <script>

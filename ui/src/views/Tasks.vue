@@ -1,51 +1,51 @@
 <template>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Tarefa</th>
-          <th data-name='StatusHeader'>Status</th>
-          <th>Tempo</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='task in tasks' :key='task.id' data-name='Line'
-          :data-id='task.id'
-        >
-          <td>
-            <a href='#' data-trigger='Edit' @click.stop.prevent='edit(task.id)'
-            >{{task.name}}</a>
-          </td>
-          <td data-name='StatusData'>{{task.statusDesc}}</td>
-          <td><app-time :task='task'/></td>
-          <td>
-            <action :task='task' @run='open' name='Visualizar'/>
-            <!-- <action :task='task' @run='start' -->
-            <!--   :show='showStart(task)' name='Iniciar' -->
-            <!-- /> -->
-            <!-- <action :task='task' @run='restart' -->
-            <!--   :show='showRestart(task)' name='Reabrir' -->
-            <!-- /> -->
-            <!-- <action :task='task' @run='pause' -->
-            <!--   :show='showPause(task)' name='Suspender' -->
-            <!-- /> -->
-            <!-- <action :task='task' @run='resume' -->
-            <!--   :show='showResume(task)' name='Reiniciar' -->
-            <!-- /> -->
-            <!-- <action :task='task' @run='stop' -->
-            <!--   :show='showStop(task)' name='Concluir' -->
-            <!-- /> -->
-          </td>
-        </tr>
-      </tbody>
-      <tfoot v-if='completeds'>
-        <tr>
-          <th>Tempo Total</th>
-          <td><total :tasks='tasks'/></td>
-        </tr>
-      </tfoot>
-    </table>
+  <div class='container'>
+    <div class='total' v-if='completeds'><total :tasks='tasks'/></div>
+    <ul>
+      <li class='card' v-for='task in tasks' :key='task.id' data-name='Line'
+        :data-id='task.id'
+      >
+        <div class='name'>
+          <action :task='task' @run='open' :name='task.name'/>
+        </div>
+        <div class='status'>{{task.statusDesc}}</div>
+        <div class='time'><app-time :task='task'/></div>
+        <a href='#' class='edit' data-trigger='Edit'
+          @click.stop.prevent='edit(task.id)' data-name='StatusData'
+        ><i class='fa fa-pencil'></i></a>
+      </li>
+    </ul>
+    <!-- <table> -->
+    <!--   <thead> -->
+    <!--     <tr> -->
+    <!--       <th>Tarefa</th> -->
+    <!--       <th data-name='StatusHeader'>Status</th> -->
+    <!--       <th>Tempo</th> -->
+    <!--       <th></th> -->
+    <!--     </tr> -->
+    <!--   </thead> -->
+    <!--   <tbody> -->
+    <!--     <tr v-for='task in tasks' :key='task.id' data-name='Line' -->
+    <!--       :data-id='task.id' -->
+    <!--     > -->
+    <!--       <td> -->
+    <!--         <a href='#' data-trigger='Edit' @click.stop.prevent='edit(task.id)' -->
+    <!--         >{{task.name}}</a> -->
+    <!--       </td> -->
+    <!--       <td data-name='StatusData'>{{task.statusDesc}}</td> -->
+    <!--       <td><app-time :task='task'/></td> -->
+    <!--       <td> -->
+    <!--         <action :task='task' @run='open' name='Visualizar'/> -->
+    <!--       </td> -->
+    <!--     </tr> -->
+    <!--   </tbody> -->
+    <!--   <tfoot v-if='completeds'> -->
+    <!--     <tr> -->
+    <!--       <th>Tempo Total</th> -->
+    <!--       <td><total :tasks='tasks'/></td> -->
+    <!--     </tr> -->
+    <!--   </tfoot> -->
+    <!-- </table> -->
   </div>
 </template>
 
@@ -148,6 +148,11 @@ export default {
     tasks () {
       return this.all
         .filter(({ status }) => this.completeds ? status === 3 : status !== 3)
+        .map((task) => {
+          const ORDER = [2, 0, 1, 3]
+          return { ...task, order: ORDER[task.status] }
+        })
+        .sort((a, b) => a.order < b.order ? -1 : (a.order > b.order ? 1 : 0))
     }
   }
 }

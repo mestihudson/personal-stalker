@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div class='form'>
     <input type='text' data-input='Name' :value='task.name' @change='changeName'
+      placeholder='Nome'
     />
-    <button data-trigger='Save' @click='save'>Salvar</button>
+    <a href='#' data-trigger='Save' @click.stop.prevent='save'>
+      <i class='fa fa-save fa-lg'></i>
+    </a>
   </div>
 </template>
 

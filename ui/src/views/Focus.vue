@@ -1,13 +1,26 @@
 <template>
-  <div>
-    <h1><app-time :task='task'/></h1>
-    <h2>{{status}}</h2>
-    <action :task='task' @run='close' name='Fechar'/>
-    <action :task='task' @run='start' :show='showStart' name='Iniciar'/>
-    <action :task='task' @run='pause' :show='showPause' name='Suspender'/>
-    <action :task='task' @run='resume' :show='showResume' name='Reiniciar'/>
-    <action :task='task' @run='stop':show='showStop' name='Concluir'/>
-    <action :task='task' @run='restart':show='showRestart' name='Reabrir'/>
+  <div class='focus'>
+    <action :task='task' @run='close' class='action close fa fa-times'
+      title='Fechar'
+    />
+    <h2 class='status'>{{status}}</h2>
+    <h1 class='time'><app-time :task='task'/></h1>
+    <h3 class='name'>{{task.name}}</h3>
+    <action :task='task' @run='start' :show='showStart'
+      class='action start fa fa-play' title='Iniciar'
+    />
+    <action :task='task' @run='pause' :show='showPause'
+      class='action pause fa fa-pause' title='Suspender'
+    />
+    <action :task='task' @run='resume' :show='showResume'
+      class='action resume fa fa-play' title='Retomar'
+    />
+    <action :task='task' @run='stop':show='showStop'
+      class='action stop fa fa-stop' title='Parar'
+    />
+    <action :task='task' @run='restart':show='showRestart'
+      class='action restart fa fa-undo' title='Reiniciar'
+    />
   </div>
 </template>
 
