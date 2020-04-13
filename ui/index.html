@@ -4,5 +4,22 @@
   </head>
   <body>
     <h1>Personal Stalker</h1>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script>
+      $(() => {
+        $.getJSON({
+          url: 'https://personal-stalker-api.herokuapp.com'
+        })
+          .done((data) => {
+            console.log(data)
+          })
+          .fail((errors) => {
+            console.error(errors)
+          })
+      })
+    </script>
   </body>
 </html>
