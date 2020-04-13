@@ -24,6 +24,7 @@ before_script:
 
 script:
   - ./deploy-ui.sh
+  - ./deploy-api.sh
 
 after_script:
   - docker-compose --file ci.docker-compose.yml down --volumes

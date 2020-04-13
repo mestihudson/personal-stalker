@@ -9,3 +9,11 @@ services:
     volumes:
     - .:/ws
 
+  api:
+    container_name: api
+    image: node:12.16.1-alpine3.11
+    working_dir: /ws/api
+    entrypoint: /bin/sh -c 'yarn install; tail -f'
+    volumes:
+    - .:/ws
+

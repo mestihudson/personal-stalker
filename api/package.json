@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "rm -frv build && mkdir -p build && cp -frv index.js build && cp -frv deployed.package.json build/package.json"
+  }
+}
