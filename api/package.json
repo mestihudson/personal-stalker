@@ -1,5 +1,12 @@
 {
   "scripts": {
-    "build": "rm -frv build && mkdir -p build && cp -frv index.js build && cp -frv deployed.package.json build/package.json"
+    "clean": "rm -frv build",
+    "initialize": "mkdir -p build",
+    "copy-index": "cp -frv index.js build",
+    "copy-package": "cp -frv deployed.package.json build/package.json",
+    "copy-knexfile": "cp -frv knexfile.js build",
+    "copy-migrations": "cp -frv migrations build",
+    "copy": "yarn copy-index && yarn copy-package && yarn copy-knexfile && yarn copy-migrations",
+    "build": "yarn clean && yarn initialize && yarn copy"
   }
 }
