@@ -2,12 +2,12 @@ version: '3.7'
 
 services:
   ui:
-    container_name: ui
-    image: node:12.16.1-alpine3.11
-    working_dir: /ws/ui
-    entrypoint: /bin/sh -c 'yarn install; tail -f'
-    volumes:
-    - .:/ws
+  container_name: ui
+  image: node:12.16.1-alpine3.11
+  working_dir: /ws/ui
+  entrypoint: /bin/sh -c 'yarn install; tail -f'
+  volumes:
+  - .:/ws
 
   api:
     container_name: api
