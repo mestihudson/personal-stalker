@@ -2,11 +2,28 @@
   "scripts": {
     "clean": "rm -frv build",
     "initialize": "mkdir -p build",
-    "copy-index": "cp -frv index.js build",
     "copy-package": "cp -frv deployed.package.json build/package.json",
-    "copy-knexfile": "cp -frv knexfile.js build",
-    "copy-migrations": "cp -frv migrations build",
-    "copy": "yarn copy-index && yarn copy-package && yarn copy-knexfile && yarn copy-migrations",
-    "build": "yarn clean && yarn initialize && yarn copy"
+    "copy": "yarn copy-package",
+    "prebuild": "yarn clean && yarn initialize && yarn copy",
+    "start": "babel-node src/index.js",
+    "start:w": "nodemon --exec 'yarn start'",
+    "build": "yarn babel src --out-dir build",
+    "prod:start": "node build/index.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.6",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "pg": "^7.18.2"
   }
 }

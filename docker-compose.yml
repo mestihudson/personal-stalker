@@ -1,0 +1,63 @@
+version: '3.7'
+
+networks:
+  personal-stalker:
+    name: personal-stalker
+    ipam:
+      config:
+      - subnet: 39.39.39.0/24
+
+services:
+  personal-stalker-ui:
+    container_name: personal-stalker-ui
+    image: node:12.16.1-alpine3.11
+    working_dir: /ws/ui
+    entrypoint: /bin/sh -c 'yarn install && yarn serve; tail -f'
+    volumes:
+    - .:/ws
+    env_file:
+    - ui/ENV.local
+    environment:
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
+    ports:
+    - 3900:3900
+    networks:
+      personal-stalker:
+        ipv4_address: 39.39.39.2
+
+  personal-stalker-api:
+    container_name: personal-stalker-api
+    image: node:12.16.1-alpine3.11
+    working_dir: /ws/api
+    entrypoint: /bin/sh -c 'yarn install && yarn start:w; tail -f'
+    volumes:
+    - .:/ws
+    env_file:
+    - api/ENV.local
+    environment:
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
+    ports:
+    - 3939:3939
+    networks:
+      personal-stalker:
+        ipv4_address: 39.39.39.3
+
+  personal-stalker-db:
+    container_name: personal-stalker-db
+    image: postgres:12.2-alpine
+    working_dir: /ws/db
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+    - .:/ws
+    - ./db/migrations:/docker-entrypoint-initdb.d
+    environment:
+      PGDATESTYLE: iso, dmy
+      TZ: BRT3BRST,M11.1.6/23:59:59,M2.3.6/23:59:59
+    env_file:
+    - db/ENV.local
+    ports:
+    - 5432
+    networks:
+      personal-stalker:
+        ipv4_address: 39.39.39.4
+

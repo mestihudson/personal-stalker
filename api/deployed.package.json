@@ -1,5 +1,4 @@
 {
-  "number": "BUILD_NUMBER",
   "scripts": {
     "start": "node index.js"
   },
@@ -8,6 +7,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.20.14",
+    "moment": "^2.24.0",
     "pg": "^8.0.2"
   }
 }

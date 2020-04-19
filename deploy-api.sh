@@ -6,9 +6,9 @@ rm -frv $API_PATH
 git clone $GIT_HEROKU_URL $API_PATH
 rm -frv $API_PATH/*
 
-docker-compose -f ci.docker-compose.yml exec api /bin/sh -c 'yarn build'
+docker-compose -f ci.docker-compose.yml exec api /bin/sh -c 'yarn install && yarn build'
 cp -frv api/build/* $API_PATH
-sed -i "s/BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/g" $API_PATH/package.json
+sed -i "s/BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/g" $API_PATH/build.js
 
 cd $API_PATH
 git config user.name "$GITHUB_USERNAME"

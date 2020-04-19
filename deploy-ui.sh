@@ -6,7 +6,7 @@ rm -frv $UI_PATH
 git clone $GITHUB_URL $UI_PATH
 rm -frv $UI_PATH/*
 
-docker-compose -f ci.docker-compose.yml exec ui /bin/sh -c 'yarn build'
+docker-compose -f ci.docker-compose.yml exec ui /bin/sh -c 'yarn install && yarn build'
 cp -frv ui/build/* $UI_PATH
 sed -i "s/BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/g" $UI_PATH/index.html
 
